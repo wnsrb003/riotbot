@@ -1,8 +1,14 @@
 상대 정글의 매치id(정글로 플레이한 정보만)를 통해 동선 예측
 
-아래 매치id로 검색 결과에서 Lv1~6까지의 position 값을 통해 상대 정글 예측 하여 와드 설치 및 갱 예방  
+아래 매치id로 검색 결과에서 Lv1~6까지의 position 값을 통해 상대 정글 예측 하여 와드 설치 및 갱 예방
 
-```
+- 정글 role(jungleMinionsKilled 값으로 탐색)
+- timestamp 계산 필요
+- 정글 갱킹으로 인한 킬 판단 필요(킬 or 어시스트 판단할 데이터)
+
+<details>
+  <summary>접기/펼치기</summary>
+  <div>
 {
     "frames": [
         {
@@ -1761,4 +1767,5 @@
             "timestamp": 420101
         },
    }
-```
+  </div>
+</details>
