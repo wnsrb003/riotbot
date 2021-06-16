@@ -1,17 +1,15 @@
-## 이슈
-- 정형화된? 정글링은 초반에만 이루어지기 때문에 보통 첫갱/두번째갱 까지만 예측가능할 듯하여 timestamp는 그 시점까지만 분석(90000~240000)
-
-- 게임 시작 후, 1:40 이내에는 예측 완료되어야 함 
-
-
 ### 실시간 상대 정글 id get 
 - https://kr.api.riotgames.com/lol/spectator/v4/active-games/by-summoner/8iIB1EYtkvcptxf5kfVYYytD6FzatrR6n9CdMD9INrunjA
 - 정글 판별(spellId로 판별? - 11이 강타)
 - id(summonerId), 이름(summonerName), 챔피언id(championId), 진영(team_id - 100 for blue side. 200 for red side.) 
 
+---
+
 ### 상대 정글 id로 accoutid get
 - https://kr.api.riotgames.com/lol/summoner/v4/summoners/by-name/꼬마규
 - 매치리스트 검색을 위함
+
+---
 
 ### 상대 정글 id로 정글 플레이목록에서 gameId get - https://kr.api.riotgames.com/lol/match/v4/matchlists/by-account/1eztq32rpjDLF6Xdq5fYHSnxiOq2vs9WDBKota6ZWcY?champion=113
 - 불러올 게임 필터 목록(아래와 일치하는 게임만 호출)
@@ -33,6 +31,8 @@
 
 - 매치리스트의 gameId = matchId 리스트 저장
 
+---
+
 ### matchId로 해당 게임의 찾고자 하는 정글 participantId, 진영(team_id)추출 - https://kr.api.riotgames.com/lol/match/v4/matches/5243203221
 ```
 "participantIdentities": [
@@ -51,6 +51,8 @@
         }]
 ```
 - 진영이 다르면 우선 넘김(추후 확인)
+
+---
 
 ### matchId로 동선 예측을 위한 position 값 추출 - https://kr.api.riotgames.com/lol/match/v4/timelines/by-match/5243203221
 ```
@@ -102,5 +104,13 @@
 ```
 - 데이터 수집 유효 timestamp 체크 -> 인베제외/ 버프 젠  1:30 ~ 바위게 젠 3:15(무지성 풀캠 말도 안되게 빨리 돌면 다 먹는 시점) ~ 4:00(집도착 아이템구매 후 갱시도)
 
+---
+
 ## 불러온 게임 데이터 중 추출 항목
 - 위치(포지션으로 탑/미드/바텀/상대정글)로 이동한 시간 
+
+---
+## 이슈
+- 정형화된? 정글링은 초반에만 이루어지기 때문에 보통 첫갱/두번째갱 까지만 예측가능할 듯하여 timestamp는 그 시점까지만 분석(90000~240000)
+
+- 게임 시작 후, 1:40 이내에는 예측 완료되어야 함 
