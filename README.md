@@ -6,7 +6,7 @@
 
 [참고자료](https://shinminyong.tistory.com/11)
 
-https://right1203.github.io/study/2019/02/28/lol-duo-tier/
+[비슷한 프로젝트](https://right1203.github.io/study/2019/02/28/lol-duo-tier/)
 
 
 ## api 활용
