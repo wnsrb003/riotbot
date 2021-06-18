@@ -1,5 +1,5 @@
 const request = require('request-promise');
-
+//ㅁㄴㅇㅁㄴㅇ
 async function getId() {
   let name = '꼬마규';
   let encodeName = encodeURI(name);
