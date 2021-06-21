@@ -4,7 +4,7 @@ async function getId() {
   let name = '꼬마규';
   let encodeName = encodeURI(name);
   let teamId = 100;
-  let api_key = 'RGAPI-d84e2f78-6386-40b1-98b8-fe4ec2ede62e';
+  let api_key = 'RGAPI-8e0cdc74-a04d-45a3-b136-25f66360ee0b';
   let id, accoutId = '';
   let options = {
     'method': 'GET',
@@ -94,6 +94,7 @@ async function getId() {
   console.log(`gameId: ${temp_gameId}, length: ${temp_gameId.length}, participantId: ${participantId}, length: ${participantId.length}`);
 
   let positions = [];
+  let positions_lane = [];
   // for (let gid of temp_gameId){
   for (let g=0; g<temp_gameId.length; g++){
   // let gid = '5243203221'
@@ -112,12 +113,28 @@ async function getId() {
       //   }
       // }
 
-      for (let f=1; f<frames.length; f++){
-        if (parseInt(frames[f].timestamp) > 90000 && parseInt(frames[f].timestamp) <= 400000){
+      for (let f=0; f<frames.length; f++){
+        //if (parseInt(frames[f].timestamp) > 90000 && parseInt(frames[f].timestamp) <= 400000){
+          if (parseInt(frames[f].timestamp) >= 0 && parseInt(frames[f].timestamp) <= 400000){
             for (let i=0; i<Object.values(frames[f].participantFrames).length; i++){
               if(parseInt(Object.values(frames[f].participantFrames)[i].participantId) === participantId[g]) {
                 positions.push(Object.values(frames[f].participantFrames)[i].position);
                 console.log(Object.values(frames[f].participantFrames)[i].position, ' -> ')
+                let posi = Object.values(frames[f].participantFrames)[i].position;
+                let p;
+                if ((parseInt(posi.x) <= 2000 && parseInt(posi.y) <= 2000) || (parseInt(posi.x) >= 11982 && parseInt(posi.y) >= 13000) ){
+                  p = 'home';
+                  positions_lane.push('home');
+                }
+                else if (parseInt(posi.y) > 7223){
+                  p = 'top/mid';
+                  positions_lane.push('top/mid');
+                }
+                else if (parseInt(posi.y) < 7223){
+                  p = 'bot/mid'
+                  positions_lane.push('bot/mid');
+                }
+                console.log(`${p}`);
               }
             }
         }
@@ -129,6 +146,8 @@ async function getId() {
     console.log('ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ')
   }
         console.log(`${positions}, length:${positions.length}`);
+        console.log('ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ')
+        console.log(`${positions_lane}`);
 }
 
 getId();
