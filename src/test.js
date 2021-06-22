@@ -1,7 +1,7 @@
 const request = require('request-promise');
 //ㅁㄴㅇㅁㄴㅇ
 async function getId() {
-  let name = '꼬마규';
+  let name = '쿵쟁이';
   let encodeName = encodeURI(name);
   let teamId = 100;
   let api_key = 'RGAPI-8e0cdc74-a04d-45a3-b136-25f66360ee0b';
@@ -19,7 +19,7 @@ async function getId() {
 
   options = {
       'method': 'GET',
-      'url': `https://kr.api.riotgames.com/lol/match/v4/matchlists/by-account/${encodeURI(accountId)}?champion=64&api_key=${api_key}`
+      'url': `https://kr.api.riotgames.com/lol/match/v4/matchlists/by-account/${encodeURI(accountId)}?champion=421&api_key=${api_key}`
   };
 
   let gameId = [];
@@ -30,8 +30,11 @@ async function getId() {
       gameId.push(match.gameId);
     }
   });
+
   let temp_gameId = gameId;
-  temp_gameId.length = 60;
+  if (temp_gameId.length > 60){
+    temp_gameId.length = 60;
+  }
   console.log(temp_gameId);
 
   let participantId = [];
@@ -113,26 +116,44 @@ async function getId() {
       //   }
       // }
 
-      for (let f=0; f<frames.length; f++){
-        //if (parseInt(frames[f].timestamp) > 90000 && parseInt(frames[f].timestamp) <= 400000){
-          if (parseInt(frames[f].timestamp) >= 0 && parseInt(frames[f].timestamp) <= 400000){
+      for (let f=1; f<frames.length; f++){
+        if (parseInt(frames[f].timestamp) > 90000 && parseInt(frames[f].timestamp) <= 400000){
             for (let i=0; i<Object.values(frames[f].participantFrames).length; i++){
               if(parseInt(Object.values(frames[f].participantFrames)[i].participantId) === participantId[g]) {
                 positions.push(Object.values(frames[f].participantFrames)[i].position);
                 console.log(Object.values(frames[f].participantFrames)[i].position, ' -> ')
                 let posi = Object.values(frames[f].participantFrames)[i].position;
                 let p;
-                if ((parseInt(posi.x) <= 2000 && parseInt(posi.y) <= 2000) || (parseInt(posi.x) >= 11982 && parseInt(posi.y) >= 13000) ){
+                if (!posi){
+                  continue;
+                }
+                if ((parseInt(posi.x) <= 4500 && parseInt(posi.y) <= 4500) || (parseInt(posi.x) >= 10000 && parseInt(posi.y) >= 10000) ){
                   p = 'home';
                   positions_lane.push('home');
                 }
-                else if (parseInt(posi.y) > 7223){
-                  p = 'top/mid';
-                  positions_lane.push('top/mid');
+                else if ((parseInt(posi.x) > 4000 && parseInt(posi.x) < 10000) && (parseInt(posi.y) > 4500 && parseInt(posi.y) < 8500)){
+                  p = 'mid';
+                  positions_lane.push('mid');
                 }
-                else if (parseInt(posi.y) < 7223){
-                  p = 'bot/mid'
-                  positions_lane.push('bot/mid');
+                else if (parseInt(posi.x) < 6000 && parseInt(posi.y) > 9000){
+                  p = 'top'
+                  positions_lane.push('top');
+                }
+                else if (parseInt(posi.x) > 8000 && parseInt(posi.y) < 4500){
+                  p = 'bot';
+                  positions_lane.push('bot');
+                }
+                else if (parseInt(posi.y) < 7000){
+                  p = 'bot or mid';
+                  positions_lane.push('bot or mid');
+                }
+                else if (parseInt(posi.y) >= 7000){
+                  p = 'top or mid';
+                  positions_lane.push('top or mid');
+                }
+                else {
+                  p = 'N'
+                  positions_lane.push('N');
                 }
                 console.log(`${p}`);
               }
